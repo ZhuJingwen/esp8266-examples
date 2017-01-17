@@ -3,6 +3,7 @@
 #include <ESP8266WebServer.h>
 
 /* Set these to your desired credentials. */
+const char *ssid = "my favorite name";
 const char *password = "myfavoritepassword";
 
 ESP8266WebServer server(80);
@@ -31,6 +32,9 @@ void setup() {
   Serial.println();
   Serial.print("Configuring access point...");
   /* You can remove the password parameter if you want the AP to be open. */
+
+  /* generate Access Point name with Mac address*/
+  /*
   uint8_t mac[WL_MAC_ADDR_LENGTH];
   WiFi.softAPmacAddress(mac);
   String macID = String(mac[WL_MAC_ADDR_LENGTH - 2], HEX) +
@@ -44,12 +48,13 @@ void setup() {
   for (int i = 0; i < AP_NameString.length(); i++){
      AP_NameChar[i] = AP_NameString.charAt(i);
   }
-   
+  */
 
-  WiFi.softAP(AP_NameChar, password);
+  WiFi.softAP(ssid, password);
 
   Serial.print("softAP: ");
-  Serial.print(AP_NameChar);
+  //Serial.print(AP_NameChar);
+  Serial.print(ssid);
   Serial.print(" password: ");
   Serial.println(password);
 

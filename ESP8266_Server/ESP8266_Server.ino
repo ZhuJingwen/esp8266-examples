@@ -1,23 +1,29 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
 
-const char* ssid = "your-ssid";
-const char* password = "your-password";
+const char* ssid = "Yami-Yichi-2G";
+const char* password = "p0rkbun5";
 
 ESP8266WebServer server(80);
 
-const int led = 0;
+const int ledPin = 0;
 
 void handleRoot() {
-  digitalWrite(led, 0);
+  digitalWrite(ledPin, LOW);
+  Serial.println("/");
   server.send(200, "text/plain", "hello from esp8266!");
-  digitalWrite(led, 1);
+  digitalWrite(ledPin, HIGH);
+}
+
+void handleLed(){
+   server.send(200, "text/plain", "toggle the led");
+   Serial.println("/led");
+   digitalWrite(ledPin,!digitalRead(ledPin));
 }
 
 void handleNotFound(){
-  digitalWrite(led, 0);
+  digitalWrite(ledPin, LOW);
   String message = "File Not Found\n\n";
   message += "URI: ";
   message += server.uri();
@@ -30,12 +36,12 @@ void handleNotFound(){
     message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
   }
   server.send(404, "text/plain", message);
-  digitalWrite(led, 1);
+  digitalWrite(ledPin, HIGH);
 }
 
 void setup(void){
-  pinMode(led, OUTPUT);
-  digitalWrite(led, 1);
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH);
   Serial.begin(115200);
   WiFi.begin(ssid, password);
   Serial.println("");
@@ -51,15 +57,14 @@ void setup(void){
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  if (MDNS.begin("esp8266")) {
-    Serial.println("MDNS responder started");
-  }
-
   server.on("/", handleRoot);
 
   server.on("/inline", [](){
     server.send(200, "text/plain", "this works as well");
+    Serial.println("/inline");
   });
+
+  server.on("/led",handleLed);
 
   server.onNotFound(handleNotFound);
 

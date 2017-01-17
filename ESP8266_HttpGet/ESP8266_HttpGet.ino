@@ -4,12 +4,12 @@
 const char* ssid = "your-ssid";
 const char* password = "your-password";
 
-const char* host = "192.168.0.6";
+const char* host = "192.168.0.5";
 
-int sensorValue1 = 0;
-int sensorValue2 = 0;
+int ledPin = 0;
 
 void setup() {
+  pinMode(ledPin,OUTPUT);
   Serial.begin(115200);
   delay(100);
 
@@ -51,14 +51,10 @@ void loop() {
   }
   
   // We now create a URI for the request
-  String url = "/test/?";
-  url += "sensor1=";
-  url += sensorValue1;
-  url += "&sensor2=";
-  url += sensorValue2;
+  String url = "/led";
   
-  //Serial.print("Requesting URL: ");
-  //Serial.println(url);
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
   
   // This will send the request to the server
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
@@ -68,10 +64,11 @@ void loop() {
   
   // Read all the lines of the reply from server and print them to Serial
   while(client.available()){
+    digitalWrite(ledPin, LOW);
     String line = client.readStringUntil('\r');
     Serial.print(line);
   }
-  
+  digitalWrite(ledPin,HIGH);
   Serial.println();
   Serial.println("closing connection");
 }

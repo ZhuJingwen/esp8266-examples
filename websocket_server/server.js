@@ -28,7 +28,7 @@ function connectClient(newClient) {
       broadcast(newClient, result);               // broadcast it for other clients
     }
     if(result.hasOwnProperty('brightness')){
-      broadcast(newClient, result); 
+      broadcast(newClient, result);
     }
     console.log(result);                          // print the message
   }

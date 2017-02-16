@@ -18,11 +18,13 @@ server.use('/',express.static('public'));
 
 // define the webSocket connection callback function:
 function connectClient(newClient) {
+  newClient.send(JSON.stringify("connected"));
   // when a webSocket message comes in from this client:
   function readMessage(data) {
     var result = JSON.parse(data);                // it'll be JSON, so parse it
     if (result.hasOwnProperty('clientName')) {    // if there's a clientName property,
       newClient.clientName = result.clientName;   // use it to name the client
+      broadcast(newClient, newClient.clientName);
     }
     if (result.hasOwnProperty('button')) {          // or a position property
       broadcast(newClient, result);               // broadcast it for other clients
@@ -55,11 +57,11 @@ function connectClient(newClient) {
 
 // broadcast data to connected webSocket clients:
 function broadcast(thisClient, data) {
-  for (client in wss.clients) {
-    if (wss.clients[client] != thisClient) {
-      wss.clients[client].send(JSON.stringify(data));
+  wss.clients.forEach(function each(client) {
+    if(thisClient!=client){
+        client.send(JSON.stringify(data));
     }
-  }
+  });
 }
 
 // start the servers:

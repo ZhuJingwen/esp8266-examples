@@ -3,8 +3,8 @@
 #include <ESP8266WebServer.h>
 
 /* Set these to your desired credentials. */
-const char *ssid = "my favorite name";
-const char *password = "myfavoritepassword";
+const char *ssid = "your-ssid";
+const char *password = "your-password";
 
 ESP8266WebServer server(80);
 

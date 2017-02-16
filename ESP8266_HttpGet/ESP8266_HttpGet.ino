@@ -1,10 +1,11 @@
 
 #include <ESP8266WiFi.h>
 
+
 const char* ssid = "your-ssid";
 const char* password = "your-password";
 
-const char* host = "192.168.0.5";
+const char* host = "192.168.0.9";
 
 int ledPin = 0;
 

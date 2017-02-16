@@ -1,3 +1,4 @@
+
 /*
    This example is built based on Tom Igoe's VideoControllerWebSocket example
 */
@@ -9,7 +10,7 @@
 const char* ssid = "your-ssid";
 const char* password = "your-password";
 
-const char serverAddress[] = "192.168.0.5";  // server address
+const char serverAddress[] = "192.168.0.9";  // server address
 int port = 8080;                              // port number
 WiFiClient tcpSocket;                         // server socket
 
@@ -28,7 +29,7 @@ void setup() {
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
   pinMode(ledPinRed, OUTPUT);
-
+  digitalWrite(ledPin,HIGH);
   Serial.begin(115200);
   WiFi.begin(ssid, password);
   Serial.println("");

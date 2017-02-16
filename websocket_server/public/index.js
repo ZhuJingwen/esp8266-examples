@@ -20,6 +20,7 @@ function setup() {                 // loop the video
   bSlider.position(10,40);
 
   socket = new WebSocket('ws://' + host); // connect to server
+  console.log(host);
   socket.onopen = sendIntro;          // socket connection listener
   socket.onmessage = readMessage;     // socket message listener
 }
@@ -36,12 +37,14 @@ function draw(){
 function sendIntro() {
   // convert the message object to a string and send it:
   socket.send(JSON.stringify(message));
+  console.log("sent intro");
 }
 
 function readMessage(event) {
   // read  text from server:
   var msg = event.data;           // read data from the onmessage event
   var message = JSON.parse(msg);  // convert incoming message to JSON
+  console.log(message);
   if (message.hasOwnProperty('button')) {
     //using button value to change backgroundColor
     if(message.button>0){
